@@ -1,5 +1,6 @@
 import gleeunit
 
+import advent_of_code_2025.{run_solution}
 import day0
 import day1
 
@@ -10,6 +11,7 @@ pub fn main() -> Nil {
 // gleeunit test functions end in `_test`
 pub fn day0_test() {
   assert day0.run("foo") == 42
+  assert run_solution(0) == Ok(42)
 }
 
 pub fn day1_example_test() {
@@ -27,4 +29,8 @@ pub fn day1_example_test() {
     L82
   "
   assert day1.run(input) == 3
+}
+
+pub fn day1_part1_test() {
+  assert run_solution(1) == Ok(1105)
 }

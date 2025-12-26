@@ -17,8 +17,9 @@ fn solutions() {
   |> dict.insert(1, day1.run)
 }
 
-fn last_day(solutions) -> Int {
-  dict.keys(solutions)
+fn last_day() -> Int {
+  solutions()
+  |> dict.keys()
   |> list.max(int.compare)
   |> result.lazy_unwrap(fn() { panic as "dummy day should always exist" })
 }
@@ -31,33 +32,32 @@ fn load_input(day: Int) -> Result(String, String) {
   })
 }
 
-fn run() -> Result(Nil, String) {
+pub fn run_solution(day: Int) -> Result(Int, String) {
   let solutions = solutions()
-  let default_day = last_day(solutions)
-  use args <- result.try(args.parse())
-
-  let day =
-    args.day
-    |> option.unwrap(default_day)
 
   let solution_result =
     dict.get(solutions, day)
-    |> result.map_error(fn(_) { "day not found" })
+    |> result.map_error(fn(_) { "solution for day not found" })
   use solution <- result.try(solution_result)
 
   use input <- result.try(load_input(day))
-  let output =
-    solution(input)
-    |> int.to_string()
+  Ok(solution(input))
+}
+
+fn main_with_error() -> Result(Nil, String) {
+  use args <- result.try(args.parse())
+  let day =
+    args.day
+    |> option.unwrap(last_day())
+  use solution <- result.try(run_solution(day))
+  let solution = int.to_string(solution)
   let day = int.to_string(day)
-
-  io.println("Solution for day " <> day <> " is: " <> output)
-
+  io.println("Solution for day " <> day <> " is: " <> solution)
   Ok(Nil)
 }
 
 pub fn main() {
-  case run() {
+  case main_with_error() {
     Ok(Nil) -> Nil
     Error(err) -> {
       io.println_error("An error occurred: " <> err)
