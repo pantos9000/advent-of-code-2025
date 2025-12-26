@@ -9,10 +9,12 @@ import simplifile
 
 import args
 import day0
+import day1
 
 fn solutions() {
   dict.new()
   |> dict.insert(0, day0.run)
+  |> dict.insert(1, day1.run)
 }
 
 fn last_day(solutions) -> Int {
