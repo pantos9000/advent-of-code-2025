@@ -1,4 +1,7 @@
-pub fn run(input: String) -> Int {
-  echo input
+pub fn run_part1(_input: String) -> Int {
   42
+}
+
+pub fn run_part2(_input: String) -> Int {
+  1337
 }

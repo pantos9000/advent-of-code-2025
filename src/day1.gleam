@@ -2,7 +2,7 @@ import gleam/int
 import gleam/result
 import gleam/string
 
-pub fn run(input: String) -> Int {
+pub fn run_part1(input: String) -> Int {
   let accu = accu_new()
   let lines = string.split(input, "\n")
   let accu = process_input(accu, lines)
