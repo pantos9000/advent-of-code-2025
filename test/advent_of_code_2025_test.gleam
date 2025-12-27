@@ -60,7 +60,7 @@ pub fn day1_part2_test() {
   assert run_solution(1, part.Second) == Ok(6599)
 }
 
-pub fn day2_part1_test() {
+pub fn day2_part1_example_test() {
   let pr = day2.process_range
   assert pr("11-22") == [11, 22]
   assert pr("95-115") == [99]
@@ -78,6 +78,6 @@ pub fn day2_part1_test() {
   assert day2.run_part1(input) == 1_227_775_554
 }
 
-pub fn day2_part2_test() {
+pub fn day2_part1_test() {
   assert run_solution(2, part.First) == Ok(17_077_011_375)
 }
