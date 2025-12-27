@@ -7,10 +7,10 @@ pub fn main() -> Nil {
 }
 
 pub fn digits_double_test() {
-  let dd = day2.digits_double
-  assert dd(1) == 11
-  assert dd(12) == 1212
-  assert dd(234) == 234_234
+  let dd = day2.digits_multiply
+  assert dd(1, 2) == 11
+  assert dd(12, 2) == 1212
+  assert dd(234, 2) == 234_234
 }
 
 pub fn digits_reduce_test() {

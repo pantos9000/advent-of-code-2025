@@ -62,13 +62,26 @@ pub fn digits_reduce(x: Int, digits: Int) -> Int {
   }
 }
 
-pub fn digits_double(x: Int) -> Int {
+pub fn digits_multiply(x: Int, times: Int) -> Int {
   let digits = digits_num(x)
-  let mult =
-    int.power(10, int.to_float(digits))
-    |> result.unwrap(0.0)
-    |> float.round()
-  x * mult + x
+  digits_multiply_loop(x, digits, times, 0)
+}
+
+pub fn digits_multiply_loop(x: Int, digits: Int, times: Int, acc: Int) -> Int {
+  case times == 0 {
+    True -> acc
+    False -> {
+      let mult = power10(digits)
+      let acc = acc * mult + x
+      digits_multiply_loop(x, digits, times - 1, acc)
+    }
+  }
+}
+
+fn power10(to: Int) -> Int {
+  int.power(10, int.to_float(to))
+  |> result.unwrap(0.0)
+  |> float.round()
 }
 
 pub fn generate_schnapps_numbers(digits: Int, min: Int, max: Int) -> List(Int) {
@@ -82,7 +95,7 @@ fn generate_schnapps_numbers_loop(
   min: Int,
   max: Int,
 ) -> List(Int) {
-  let generated = digits_double(digits)
+  let generated = digits_multiply(digits, 2)
   case generated {
     _ if generated < min ->
       generate_schnapps_numbers_loop(digits + 1, acc, min, max)
