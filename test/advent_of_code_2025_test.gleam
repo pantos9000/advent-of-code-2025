@@ -37,3 +37,24 @@ pub fn day1_part1_example_test() {
 pub fn day1_part1_test() {
   assert run_solution(1, part.First) == Ok(1105)
 }
+
+pub fn day1_part2_example_test() {
+  let input =
+    "
+    L68
+    L30
+    R48
+    L5
+    R60
+    L55
+    L1
+    L99
+    R14
+    L82
+  "
+  assert day1.run_part2(input) == 6
+}
+
+pub fn day1_part2_test() {
+  assert run_solution(1, part.Second) == Ok(6599)
+}
