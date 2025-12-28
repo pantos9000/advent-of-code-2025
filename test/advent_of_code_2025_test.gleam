@@ -4,6 +4,7 @@ import advent_of_code_2025.{run_solution}
 import day0
 import day1
 import day2
+import day3
 import part
 
 pub fn main() -> Nil {
@@ -106,4 +107,17 @@ pub fn day2_part2_example_test() {
 
 pub fn day2_part2_test() {
   assert run_solution(2, part.Second) == Ok(36_037_497_037)
+}
+
+pub fn day3_part1_example_test() {
+  let input =
+    "987654321111111
+     811111111111119
+     234234234234278
+     818181911112111"
+  assert day3.run_part1(input) == 357
+}
+
+pub fn day3_part1_test() {
+  assert run_solution(3, part.First) == Ok(17_613)
 }

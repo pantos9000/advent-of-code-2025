@@ -11,6 +11,7 @@ import args
 import day0
 import day1
 import day2
+import day3
 import part
 
 fn solutions() {
@@ -19,6 +20,7 @@ fn solutions() {
   |> dict.insert(0, #(day0.run_part1, Some(day0.run_part2)))
   |> dict.insert(1, #(day1.run_part1, Some(day1.run_part2)))
   |> dict.insert(2, #(day2.run_part1, Some(day2.run_part2)))
+  |> dict.insert(3, #(day3.run_part1, None))
 }
 
 fn last_day() -> Int {
