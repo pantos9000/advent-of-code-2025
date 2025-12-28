@@ -121,3 +121,12 @@ pub fn day3_part1_example_test() {
 pub fn day3_part1_test() {
   assert run_solution(3, part.First) == Ok(17_613)
 }
+
+pub fn day3_part2_example_test() {
+  let input =
+    "987654321111111
+     811111111111119
+     234234234234278
+     818181911112111"
+  assert day3.run_part2(input) == 3_121_910_778_619
+}
