@@ -4,6 +4,54 @@ import gleam/list
 import gleam/result
 import gleam/string
 
+pub fn run_part2(input: String) -> Int {
+  input
+  |> string.trim()
+  |> string.split(",")
+  |> list.flat_map(part2_process_range)
+  |> int.sum()
+}
+
+pub fn part2_process_range(range: String) -> List(Int) {
+  let range = range |> string.trim() |> range_from_str()
+  part2_schnapps_loop1(1, range.begin, range.end, [])
+  |> list.sort(int.compare)
+  |> list.unique()
+}
+
+fn part2_schnapps_loop1(
+  prefix: Int,
+  min: Int,
+  max: Int,
+  acc: List(Int),
+) -> List(Int) {
+  case prefix {
+    _ if prefix <= max && prefix < 100_000 -> {
+      let acc = part2_schnapps_loop2(prefix, 2, min, max, acc)
+      let prefix = prefix + 1
+      part2_schnapps_loop1(prefix, min, max, acc)
+    }
+    _ -> acc
+  }
+}
+
+/// Check if any number of repetitions of `repeated` is in `min..max`
+fn part2_schnapps_loop2(
+  repeated: Int,
+  times: Int,
+  min: Int,
+  max: Int,
+  acc: List(Int),
+) -> List(Int) {
+  let generated = digits_multiply(repeated, times)
+  case generated {
+    _ if generated < min ->
+      part2_schnapps_loop2(repeated, times + 1, min, max, acc)
+    _ if generated > max -> acc
+    _ -> part2_schnapps_loop2(repeated, times + 1, min, max, [generated, ..acc])
+  }
+}
+
 pub fn run_part1(input: String) -> Int {
   input
   |> string.trim()
