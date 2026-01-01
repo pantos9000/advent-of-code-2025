@@ -5,6 +5,7 @@ import day0
 import day1
 import day2
 import day3
+import day4
 import part
 
 pub fn main() -> Nil {
@@ -129,4 +130,23 @@ pub fn day3_part2_example_test() {
      234234234234278
      818181911112111"
   assert day3.run_part2(input) == 3_121_910_778_619
+}
+
+pub fn day4_part1_example_test() {
+  let input =
+    "..@@.@@@@.
+     @@@.@.@.@@
+     @@@@@.@.@@
+     @.@@@@..@.
+     @@.@@@@.@@
+     .@@@@@@@.@
+     .@.@.@.@@@
+     @.@@@.@@@@
+     .@@@@@@@@.
+     @.@.@@@.@."
+  assert day4.run_part1(input) == 13
+}
+
+pub fn day4_part1_test() {
+  assert run_solution(4, part.First) == Ok(1474)
 }
