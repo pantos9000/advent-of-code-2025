@@ -1,6 +1,5 @@
-import gleam/dict.{type Dict}
 import gleam/list
-import gleam/result
+import gleam/set.{type Set}
 import gleam/string
 
 pub fn run_part1(input: String) -> Int {
@@ -21,61 +20,21 @@ fn part1_loop(map: Map, coords: List(Coord), acc: Int) -> Int {
   }
 }
 
-pub type Content {
-  Paper
-  Nothing
-}
-
-fn content_parse(c: String) -> Content {
+fn contains_paper(c: String) -> Bool {
   case c {
-    "@" -> Paper
-    _ -> Nothing
+    "@" -> True
+    _ -> False
   }
 }
 
-// type Spot {
-//   Spot(
-//     self: Content,
-//     up: Content,
-//     down: Content,
-//     left: Content,
-//     right: Content,
-//     up_left: Content,
-//     up_right: Content,
-//     low_left: Content,
-//     low_right: Content,
-//   )
-// }
-
-pub type Map {
-  Map(map: Dict(Coord, Content), width: Int, height: Int)
-}
+pub type Map =
+  Set(Coord)
 
 pub type Coord {
   Coord(x: Int, y: Int)
 }
 
-fn map_parse_width(input: String) -> Int {
-  input
-  |> string.trim()
-  |> string.split("\n")
-  |> list.first()
-  |> result.unwrap("")
-  |> string.trim()
-  |> string.length()
-}
-
-fn map_parse_height(input: String) -> Int {
-  input
-  |> string.trim()
-  |> string.split("\n")
-  |> list.length()
-}
-
 pub fn map_parse(input: String) -> Map {
-  let width = map_parse_width(input)
-  let height = map_parse_height(input)
-
   let lines =
     input
     |> string.trim()
@@ -83,15 +42,10 @@ pub fn map_parse(input: String) -> Map {
     |> list.map(string.trim)
     |> list.map(string.to_graphemes)
 
-  let map = map_parse_loop(0, lines, dict.new())
-  Map(map, width, height)
+  map_parse_loop(0, lines, set.new())
 }
 
-fn map_parse_loop(
-  y: Int,
-  lines: List(List(String)),
-  acc: Dict(Coord, Content),
-) -> Dict(Coord, Content) {
+fn map_parse_loop(y: Int, lines: List(List(String)), acc: Map) -> Map {
   case lines {
     [] -> acc
     [line, ..rest] -> {
@@ -101,38 +55,30 @@ fn map_parse_loop(
   }
 }
 
-fn map_parse_line(
-  y: Int,
-  line: List(String),
-  acc: Dict(Coord, Content),
-) -> Dict(Coord, Content) {
+fn map_parse_line(y: Int, line: List(String), acc: Map) -> Map {
   map_parse_line_loop(0, y, line, acc)
 }
 
-fn map_parse_line_loop(
-  x: Int,
-  y: Int,
-  line: List(String),
-  acc: Dict(Coord, Content),
-) {
+fn map_parse_line_loop(x: Int, y: Int, line: List(String), acc: Map) {
   case line {
     [] -> acc
     [c, ..rest] -> {
       let coord = Coord(x, y)
-      let content = content_parse(c)
-      let acc = dict.insert(acc, coord, content)
+      let acc = case contains_paper(c) {
+        False -> acc
+        True -> set.insert(acc, coord)
+      }
       map_parse_line_loop(x + 1, y, rest, acc)
     }
   }
 }
 
 fn map_coords(map: Map) -> List(Coord) {
-  dict.keys(map.map)
+  set.to_list(map)
 }
 
-pub fn map_get(map: Map, coord: Coord) -> Content {
-  dict.get(map.map, coord)
-  |> result.unwrap(Nothing)
+pub fn map_is_paper(map: Map, coord: Coord) -> Bool {
+  set.contains(map, coord)
 }
 
 pub fn map_count_paper(map: Map, coord: Coord) -> Int {
@@ -159,12 +105,12 @@ pub fn map_count_paper(map: Map, coord: Coord) -> Int {
 }
 
 fn map_count_paper_loop(map: Map, coord: Coord, acc: Int) -> Int {
-  case map_get(map, coord) {
-    Nothing -> acc
-    Paper -> acc + 1
+  case map_is_paper(map, coord) {
+    False -> acc
+    True -> acc + 1
   }
 }
 
 fn map_coord_is_stapleable(map: Map, coord: Coord) -> Bool {
-  map_get(map, coord) == Paper && map_count_paper(map, coord) < 4
+  map_is_paper(map, coord) && map_count_paper(map, coord) < 4
 }

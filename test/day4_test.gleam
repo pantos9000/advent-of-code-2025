@@ -13,12 +13,10 @@ pub fn map_parse_test() {
     @.
     "
   let map = day4.map_parse(input)
-  assert map.width == 2
-  assert map.height == 2
-  assert day4.map_get(map, day4.Coord(x: 0, y: 0)) == day4.Nothing
-  assert day4.map_get(map, day4.Coord(x: 1, y: 0)) == day4.Paper
-  assert day4.map_get(map, day4.Coord(x: 0, y: 1)) == day4.Paper
-  assert day4.map_get(map, day4.Coord(x: 1, y: 1)) == day4.Nothing
+  assert day4.map_is_paper(map, day4.Coord(x: 0, y: 0)) == False
+  assert day4.map_is_paper(map, day4.Coord(x: 1, y: 0)) == True
+  assert day4.map_is_paper(map, day4.Coord(x: 0, y: 1)) == True
+  assert day4.map_is_paper(map, day4.Coord(x: 1, y: 1)) == False
 }
 
 pub fn map_count_paper_test() {
