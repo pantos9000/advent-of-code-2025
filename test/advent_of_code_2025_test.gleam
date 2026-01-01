@@ -150,3 +150,22 @@ pub fn day4_part1_example_test() {
 pub fn day4_part1_test() {
   assert run_solution(4, part.First) == Ok(1474)
 }
+
+pub fn day4_part2_example_test() {
+  let input =
+    "..@@.@@@@.
+     @@@.@.@.@@
+     @@@@@.@.@@
+     @.@@@@..@.
+     @@.@@@@.@@
+     .@@@@@@@.@
+     .@.@.@.@@@
+     @.@@@.@@@@
+     .@@@@@@@@.
+     @.@.@@@.@."
+  assert day4.run_part2(input) == 43
+}
+
+pub fn day4_part2_test() {
+  assert run_solution(4, part.Second) == Ok(8910)
+}

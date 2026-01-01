@@ -8,6 +8,86 @@ pub fn run_part1(input: String) -> Int {
   part1_loop(map, coords, 0)
 }
 
+pub fn run_part2(input: String) -> Int {
+  let map = map_parse(input)
+  let to_check = map_coords(map)
+  part2_loop(map, to_check, 0)
+}
+
+fn part2_loop(map: Map, to_check: List(Coord), acc: Int) {
+  case to_check {
+    [] -> acc
+    to_check -> {
+      let removed = part2_remove_coords(map, to_check)
+      let to_check = part2_gather_neighbors(removed)
+      let map = set.difference(map, set.from_list(removed))
+      let acc = acc + list.length(removed)
+      part2_loop(map, to_check, acc)
+    }
+  }
+}
+
+fn part2_gather_neighbors(coords: List(Coord)) -> List(Coord) {
+  part2_gather_neighbors_loop(coords, [])
+}
+
+fn part2_gather_neighbors_loop(
+  coords: List(Coord),
+  acc: List(Coord),
+) -> List(Coord) {
+  case coords {
+    [] -> acc
+    [coord, ..rest] -> {
+      let Coord(x, y) = coord
+      let acc = [
+        Coord(x - 1, y - 1),
+        Coord(x, y - 1),
+        Coord(x + 1, y - 1),
+        Coord(x - 1, y),
+        Coord(x + 1, y),
+        Coord(x - 1, y + 1),
+        Coord(x, y + 1),
+        Coord(x + 1, y + 1),
+        ..acc
+      ]
+      part2_gather_neighbors_loop(rest, acc)
+    }
+  }
+}
+
+fn part2_remove_coords(map: Map, to_check: List(Coord)) -> List(Coord) {
+  part2_remove_coords_loop(map, to_check, [])
+  |> list.unique()
+}
+
+fn part2_remove_coords_loop(
+  map: Map,
+  to_check: List(Coord),
+  acc: List(Coord),
+) -> List(Coord) {
+  case to_check {
+    [] -> acc
+    [coord, ..rest] -> {
+      let acc = case map_coord_is_stapleable(map, coord) {
+        False -> acc
+        True -> [coord, ..acc]
+      }
+      part2_remove_coords_loop(map, rest, acc)
+    }
+  }
+}
+
+// fn part2_staple(map: Map, coord: Coord, acc: Int) -> Map {
+//   case map_coord_is_stapleable(map, coord) {
+//     False -> map
+//     True -> {
+//       let map = map_staple(map, coord)
+//       part2_staple(map)
+//     }
+//   }
+//   todo
+// }
+
 fn part1_loop(map: Map, coords: List(Coord), acc: Int) -> Int {
   case coords {
     [] -> acc
