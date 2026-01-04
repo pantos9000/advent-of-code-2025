@@ -38,6 +38,33 @@ pub fn run_part1(input: String) -> Int {
   |> list.fold(1, fn(x, y) { x * y })
 }
 
+pub fn run_part2(input: String) -> Int {
+  let joxes: List(Jox) =
+    input
+    |> string.trim()
+    |> string.split("\n")
+    |> list.map(jox_parse)
+
+  let jox_count = list.length(joxes)
+  let links = min_dist_list(joxes)
+
+  let final_link = part2_loop(links, jox_count, set.new())
+  { final_link.0 }.x * { final_link.1 }.x
+}
+
+fn part2_loop(links: List(Link), jox_count: Int, acc: Circuit) -> Link {
+  case links {
+    [] -> panic as "reached end of all links"
+    [link, ..rest] -> {
+      let acc = acc |> circuit_insert_link(link)
+      case set.size(acc) == jox_count {
+        True -> link
+        False -> part2_loop(rest, jox_count, acc)
+      }
+    }
+  }
+}
+
 fn min_dist_list(joxes: List(Jox)) -> List(Link) {
   joxes
   |> list.combination_pairs()

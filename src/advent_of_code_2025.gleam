@@ -24,7 +24,7 @@ fn solutions() {
   |> dict.insert(2, #(day2.run_part1, Some(day2.run_part2)))
   |> dict.insert(3, #(day3.run_part1, Some(day3.run_part2)))
   |> dict.insert(4, #(day4.run_part1, Some(day4.run_part2)))
-  |> dict.insert(8, #(day8.run_part1, None))
+  |> dict.insert(8, #(day8.run_part1, Some(day8.run_part2)))
 }
 
 fn last_day() -> Int {
