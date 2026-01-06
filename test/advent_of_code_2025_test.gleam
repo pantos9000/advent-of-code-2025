@@ -6,6 +6,7 @@ import day1
 import day2
 import day3
 import day4
+import day5
 import day8
 import part
 
@@ -169,6 +170,26 @@ pub fn day4_part2_example_test() {
 
 pub fn day4_part2_test() {
   assert run_solution(4, part.Second) == Ok(8910)
+}
+
+pub fn day5_part1_example_test() {
+  let input =
+    "3-5
+   10-14
+   16-20
+   12-18
+
+   1
+   5
+   8
+   11
+   17
+   32"
+  assert day5.run_part1(input) == 3
+}
+
+pub fn day5_part1_test() {
+  assert run_solution(5, part.First) == Ok(567)
 }
 
 pub fn day8_part1_example_test() {
