@@ -12,8 +12,49 @@ pub fn run_part1(input: String) -> Int {
   |> list.length()
 }
 
+pub fn run_part2(input: String) -> Int {
+  parse_ranges(input)
+  |> part2_merge_ranges()
+  |> list.map(range_size)
+  |> int.sum()
+}
+
+fn part2_merge_ranges(ranges: List(Range)) -> List(Range) {
+  ranges
+  |> list.sort(fn(r1, r2) { int.compare(r1.min, r2.min) })
+  |> part2_merge_ranges_loop([])
+}
+
+fn part2_merge_ranges_loop(ranges: List(Range), acc: List(Range)) -> List(Range) {
+  case ranges {
+    [] -> acc
+    [range] -> [range, ..acc]
+    [range1, range2, ..rest] -> {
+      case range1.max < range2.min - 1 {
+        True -> {
+          let acc = [range1, ..acc]
+          let rest = [range2, ..rest]
+          part2_merge_ranges_loop(rest, acc)
+        }
+        False -> {
+          // invariant: range1.min <= range2.min because of sort
+          let min = range1.min
+          let max = int.max(range1.max, range2.max)
+          let new_range = Range(min:, max:)
+          let rest = [new_range, ..rest]
+          part2_merge_ranges_loop(rest, acc)
+        }
+      }
+    }
+  }
+}
+
 type Range {
   Range(min: Int, max: Int)
+}
+
+fn range_size(range: Range) -> Int {
+  range.max - range.min + 1
 }
 
 fn range_parse(line: String) -> Range {

@@ -192,6 +192,26 @@ pub fn day5_part1_test() {
   assert run_solution(5, part.First) == Ok(567)
 }
 
+pub fn day5_part2_example_test() {
+  let input =
+    "3-5
+   10-14
+   16-20
+   12-18
+
+   1
+   5
+   8
+   11
+   17
+   32"
+  assert day5.run_part2(input) == 14
+}
+
+pub fn day5_part2_test() {
+  assert run_solution(5, part.Second) == Ok(354_149_806_372_909)
+}
+
 pub fn day8_part1_example_test() {
   let input =
     "162,817,812
